@@ -414,68 +414,165 @@ canvas {
 
 </head>
 <body>
+
 <div class="wrap">
-  <h1>🔥 EXTREME Stress Benchmark</h1>
-  <p class="sub">CPU Oversubscribe + GPU Shader Berat + Memory Pressure 8GB + Decode 16 Stream. Ada STOP & Auto-stop.</p>
 
-  <div class="panel">
-    <div class="row">
-      <label>CPU Workers (Max: Cores x2)</label>
-      <input type="range" id="cpuWorkers" min="1" max="64" value="8">
-      <span class="val" id="cpuWorkersVal">8</span>
-    </div>
-    <div class="row">
-      <label>GPU Shader Load (Max 500)</label>
-      <input type="range" id="gpuLoad" min="1" max="500" value="200">
-      <span class="val" id="gpuLoadVal">200</span>
-    </div>
-    <div class="row">
-      <label>GPU Resolution (Max 8x)</label>
-      <input type="range" id="gpuRes" min="1" max="8" value="4">
-      <span class="val" id="gpuResVal">4x</span>
-    </div>
-    <div class="row">
-      <label>Memory Pressure (Max 8192 MB)</label>
-      <input type="range" id="memMB" min="0" max="8192" step="256" value="2048">
-      <span class="val" id="memMBVal">2048</span>
-    </div>
-    <div class="row">
-      <label>Decode Streams (Max 16)</label>
-      <input type="range" id="decStreams" min="0" max="16" value="4">
-      <span class="val" id="decStreamsVal">4</span>
-    </div>
-    <div class="row">
-      <label>Auto-Stop (Detik)</label>
-      <input type="range" id="autoStopSec" min="10" max="300" step="10" value="60">
-      <span class="val" id="autoStopSecVal">60s</span>
-    </div>
-    <div class="row">
-      <button id="startBtn">▶ START EXTREME</button>
-      <button id="stopBtn" class="stop" disabled>■ STOP</button>
-    </div>
-    <div class="warn-text">
-      ⚠️ <b>Peringatan:</b> Naikin slider pelan-pelan. Kalau GPU lo crash (Driver Timeout), turunin <b>GPU Resolution</b> atau <b>GPU Load</b>. Jangan tinggal tidur pas ngetes.
-    </div>
-  </div>
+  <section class="gift-screen" id="giftScreen">
+    <div class="gift-card">
+      <div class="gift-icon">🎁</div>
+      <div class="eyebrow">A little surprise</div>
+      <h1>Apakah kamu mau hadiah?</h1>
+      <p>
+        Ada sesuatu yang sudah disiapkan buat lo.
+        Pilih salah satu untuk melihat apa yang ada di dalamnya.
+      </p>
 
-  <div class="panel">
-    <div class="metrics">
-      <div class="metric"><div class="k">FPS</div><div class="v" id="mFps">–</div></div>
-      <div class="metric"><div class="k">Frame Time</div><div class="v" id="mFrame">–</div></div>
-      <div class="metric"><div class="k">Long Tasks (>50ms)</div><div class="v" id="mLongTask">0</div></div>
-      <div class="metric"><div class="k">CPU Ops/sec</div><div class="v" id="mOps">–</div></div>
-      <div class="metric"><div class="k">JS Heap</div><div class="v" id="mHeap">–</div></div>
-      <div class="metric"><div class="k">Workers</div><div class="v" id="mWorkers">0</div></div>
-      <div class="metric"><div class="k">Decode Streams</div><div class="v" id="mDec">0</div></div>
-      <div class="metric"><div class="k">Elapsed</div><div class="v" id="mElapsed">0s</div></div>
-    </div>
-  </div>
+      <div class="gift-actions">
+        <button class="btn-primary" id="giftMau">Mau ✨</button>
+        <button class="btn-secondary" id="giftGas">Gas →</button>
+      </div>
 
-  <div class="panel">
-    <canvas id="chart" width="1000" height="180"></canvas>
-    <div class="log" id="log">Ready.</div>
-  </div>
+      <div class="gift-note">A surprise is waiting for you.</div>
+    </div>
+  </section>
+
+  <main id="benchmark">
+    <header class="header">
+      <div class="brand">
+        <div class="brand-icon">A</div>
+        <div>
+          <h1>System Benchmark</h1>
+          <p>Performance monitoring dashboard</p>
+        </div>
+      </div>
+      <div class="status">● READY TO TEST</div>
+    </header>
+
+    <section class="panel">
+      <div class="panel-title">
+        Benchmark Configuration
+        <span>Atur parameter pengujian sebelum memulai.</span>
+      </div>
+
+      <div class="row">
+        <label for="cpuWorkers">CPU Workers</label>
+        <input type="range" id="cpuWorkers"
+          min="1" max="64" value="8">
+        <span class="val" id="cpuWorkersVal">8</span>
+      </div>
+
+      <div class="row">
+        <label for="gpuLoad">GPU Shader Load</label>
+        <input type="range" id="gpuLoad"
+          min="1" max="500" value="200">
+        <span class="val" id="gpuLoadVal">200</span>
+      </div>
+
+      <div class="row">
+        <label for="gpuRes">GPU Resolution</label>
+        <input type="range" id="gpuRes"
+          min="1" max="8" value="4">
+        <span class="val" id="gpuResVal">4x</span>
+      </div>
+
+      <div class="row">
+        <label for="memMB">Memory Pressure (MB)</label>
+        <input type="range" id="memMB"
+          min="0" max="8192" step="256" value="2048">
+        <span class="val" id="memMBVal">2048</span>
+      </div>
+
+      <div class="row">
+        <label for="decStreams">Decode Streams</label>
+        <input type="range" id="decStreams"
+          min="0" max="16" value="4">
+        <span class="val" id="decStreamsVal">4</span>
+      </div>
+
+      <div class="row">
+        <label for="autoStopSec">Auto-Stop Duration</label>
+        <input type="range" id="autoStopSec"
+          min="10" max="300" step="10" value="60">
+        <span class="val" id="autoStopSecVal">60s</span>
+      </div>
+
+      <div class="actions">
+        <button class="action" id="startBtn">▶ START TEST</button>
+        <button class="action stop" id="stopBtn" disabled>■ STOP</button>
+      </div>
+
+      <div class="warn-text">
+        ⚠ Performa benchmark bergantung pada perangkat dan browser.
+        Mulai dengan pengaturan ringan, pantau suhu serta penggunaan
+        memori, dan hentikan pengujian jika perangkat tidak responsif.
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-title">
+        Live Performance
+        <span>Metrik selama pengujian berlangsung.</span>
+      </div>
+
+      <div class="metrics">
+        <div class="metric">
+          <div class="k">FPS</div>
+          <div class="v" id="mFps">–</div>
+        </div>
+        <div class="metric">
+          <div class="k">Frame Time</div>
+          <div class="v" id="mFrame">–</div>
+        </div>
+        <div class="metric">
+          <div class="k">Long Tasks</div>
+          <div class="v" id="mLongTask">0</div>
+        </div>
+        <div class="metric">
+          <div class="k">CPU Ops/sec</div>
+          <div class="v" id="mOps">–</div>
+        </div>
+        <div class="metric">
+          <div class="k">JS Heap</div>
+          <div class="v" id="mHeap">–</div>
+        </div>
+        <div class="metric">
+          <div class="k">Workers</div>
+          <div class="v" id="mWorkers">0</div>
+        </div>
+        <div class="metric">
+          <div class="k">Decode Streams</div>
+          <div class="v" id="mDec">0</div>
+        </div>
+        <div class="metric">
+          <div class="k">Elapsed</div>
+          <div class="v" id="mElapsed">0s</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-title">
+        Performance Graph
+        <span>Visualisasi performa pengujian.</span>
+      </div>
+      <canvas id="chart" width="1000" height="180"></canvas>
+
+      <div class="panel-title">Activity Log</div>
+      <div class="log" id="log">Ready.</div>
+    </section>
+
+  </main>
 </div>
+
+<script>
+document.getElementById('giftMau').addEventListener('click', openBenchmark);
+document.getElementById('giftGas').addEventListener('click', openBenchmark);
+
+function openBenchmark() {
+  document.getElementById('giftScreen').style.display = 'none';
+  document.getElementById('benchmark').style.display = 'block';
+}
+
 
 <script>
 (() => {
